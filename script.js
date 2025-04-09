@@ -1,5 +1,5 @@
 // Countdown timer
-const discountExpiryDate = new Date("2025-04-10T23:59:59");
+const discountExpiryDate = new Date("2025-05-10T23:59:59");
 function updateDiscountTimer() {
     const now = new Date();
     const timeRemaining = discountExpiryDate - now;
