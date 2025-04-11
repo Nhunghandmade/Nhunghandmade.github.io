@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Giỏ hàng - Len Handmade</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .cart-item {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      border-bottom: 1px solid #ccc;
+      padding: 10px 0;
+    }
+    .cart-item img {
+      width: 100px;
+      height: auto;
+      border-radius: 8px;
+    }
+    .cart-item h4 {
+      margin: 0;
+      font-size: 16px;
+    }
+    .cart-item p {
+      margin: 4px 0 0 0;
+      color: #333;
+    }
+    .empty-cart {
+      text-align: center;
+      font-style: italic;
+      margin-top: 20px;
+    }
+    .cart-item-buttons {
+      margin-top: 8px;
+    }
+    .cart-item-buttons button {
+      margin-right: 8px;
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="container header-content">
+      <div class="logo-container">
+        <img src="anh6.png" alt="Logo Len Handmade" class="logo">
+      </div>
+    </div>
+  </header>
+
+  <nav>
+    <ul>
+      <li><a href="index.html">Trang chủ</a></li>
+      <li><a href="sp.html">Sản phẩm</a></li>
+      <li><a href="#gt.html">Giới thiệu</a></li>   
+      <li><a href="cart.html">Giỏ hàng</a></li>
+    </ul>
+  </nav>
+
+  <section class="products">
+    <h2>🛍 Giỏ hàng của bạn</h2>
+    <div id="cart-items" class="product-list"></div>
+    <div style="text-align: center; margin-top: 20px;">
+      <h3>Tổng cộng: <span id="cart-total">0</span> đ</h3>
+      <button onclick="clearCart()">🗑 Xoá tất cả</button>
+    </div>
+  </section>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const cartItemsContainer = document.getElementById("cart-items");
+      const cartTotalEl = document.getElementById("cart-total");
+
+      const cart = JSON.parse(localStorage.getItem("cart")) || [];
+      let total = 0;
+
+      if (cart.length === 0) {
+        cartItemsContainer.innerHTML = "<p class='empty-cart'>Giỏ hàng đang trống.</p>";
+      } else {
+        cart.forEach((item, index) => {
+          const itemDiv = document.createElement("div");
+          itemDiv.className = "cart-item";
+          itemDiv.innerHTML = `
+            <img src="${item.img}" alt="${item.title}">
+            <div>
+              <h4>${item.title}</h4>
+              <p>${item.price.toLocaleString()} đ</p>
+              <div class="cart-item-buttons">
+                <button onclick="buyItem(${index})">🛒 Mua</button>
+                <button onclick="removeItem(${index})">❌ Xoá</button>
+              </div>
+            </div>
+          `;
+          cartItemsContainer.appendChild(itemDiv);
+          total += item.price;
+        });
+
+        const buyAllBtn = document.createElement("button");
+        buyAllBtn.textContent = "✅ Mua tất cả";
+        buyAllBtn.style.marginTop = "20px";
+        buyAllBtn.onclick = buyAll;
+
+        cartItemsContainer.parentNode.insertBefore(buyAllBtn, cartItemsContainer.nextSibling);
+      }
+
+      cartTotalEl.innerText = total.toLocaleString();
+    });
+
+    function clearCart() {
+      localStorage.removeItem("cart");
+      location.reload();
+    }
+
+    function buyItem(index) {
+      alert("🎉 Mua hàng thành công cho sản phẩm này!");
+    }
+
+    function buyAll() {
+      alert("🎊 Bạn đã mua tất cả sản phẩm thành công!");
+    }
+
+    function removeItem(index) {
+      const cart = JSON.parse(localStorage.getItem("cart")) || [];
+      cart.splice(index, 1);
+      localStorage.setItem("cart", JSON.stringify(cart));
+      location.reload();
+    }
+  </script>
+
+</body>
+</html>

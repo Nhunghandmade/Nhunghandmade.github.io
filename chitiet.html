@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Chi tiết sản phẩm</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+    }
+    .product-detail {
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 30px;
+      border: 1px solid #ddd;
+      border-radius: 12px;
+      background: #f9f9f9;
+    }
+    .product-detail img {
+      width: 100%;
+      max-width: 400px;
+      border-radius: 12px;
+      object-fit: cover;
+    }
+    .product-info {
+      flex: 1;
+    }
+    .product-info h2 {
+      margin-top: 0;
+      font-size: 24px;
+    }
+    .product-info p {
+      font-size: 18px;
+      margin: 10px 0;
+    }
+    .back-btn {
+      display: block;
+      text-align: center;
+      margin: 20px;
+      text-decoration: none;
+      color: #007bff;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background: #28a745;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <a href="sp.html" class="back-btn">← Quay lại trang sản phẩm</a>
+
+  <div class="product-detail">
+    <img id="detail-img" src="" alt="Hình sản phẩm">
+    <div class="product-info">
+      <h2 id="detail-title">Tên sản phẩm</h2>
+      <p id="detail-price">Giá</p>
+      <p id="detail-description">Mô tả sản phẩm...</p>
+      <button onclick="addToCart()">Thêm vào giỏ hàng</button>
+    </div>
+  </div>
+
+  <script>
+    const product = JSON.parse(localStorage.getItem("product-detail"));
+    if (product) {
+      document.getElementById("detail-img").src = product.img;
+      document.getElementById("detail-title").textContent = product.title;
+      document.getElementById("detail-price").textContent = product.price.toLocaleString() + " đ";
+      document.getElementById("detail-description").textContent =
+        product.description || "Sản phẩm được làm thủ công từ len chất lượng cao, phù hợp làm quà tặng hoặc trang trí.";
+    } else {
+      document.querySelector(".product-detail").innerHTML = "<p>Không tìm thấy thông tin sản phẩm.</p>";
+    }
+
+    function addToCart() {
+      let cart = JSON.parse(localStorage.getItem("cart")) || [];
+      cart.push(product);
+      localStorage.setItem("cart", JSON.stringify(cart));
+      alert(`Đã thêm "${product.title}" vào giỏ hàng!`);
+    }
+  </script>
+
+</body>
+</html>
